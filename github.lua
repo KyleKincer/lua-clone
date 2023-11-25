@@ -14,6 +14,11 @@ end
 
 -- Define the function to clone a repository
 function clone(repo, dest)
+    -- If no destination is provided, use the repository name
+    if not dest then
+        dest = fs.getName(repo)
+    end
+
     local repo_api_url = "https://api.github.com/repos/" .. repo .. "/git/trees/master?recursive=1"
     local response = http.get(repo_api_url)
     if response then
@@ -33,8 +38,8 @@ end
 
 -- Check if a repository was provided
 if arg[1] then
-    -- Use the clone function with the provided repository
-    clone(arg[1])
+    -- Use the clone function with the provided repository and optional destination
+    clone(arg[1], arg[2])
 else
     print("Please provide a repository to clone.")
 end
